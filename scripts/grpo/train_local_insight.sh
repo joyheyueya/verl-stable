@@ -2,35 +2,35 @@ eval "$(conda shell.bash hook)"
 conda activate verl
 
 # Set environment variables
-hf_cache_dir="/home/anikait.singh/.cache"
-export WANDB_API_KEY=a393f29dee9351c0a8c4e410e626e20733564d26
-export WANDB_USERNAME=gurpreetkaur94539
-export WANDB_USER_EMAIL=gurpreetkaur94539gmail.com
+hf_cache_dir="/home/ubuntu/.cache"
+export WANDB_API_KEY=861d0aa298f3bfe20d52ce9ec277a6a37651448a
+export WANDB_USERNAME=heyueya
+export WANDB_USER_EMAIL=heyueya@stanford.edu
 export WANDB__SERVICE_WAIT=300
 # export WANDB_ENTITY=cocolab
 export HF_DATASETS_CACHE=$hf_cache_dir
-export HF_TOKEN='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'
+# export HF_TOKEN='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'
 
 models=(
-    /home/anikait.singh/rl_behaviors_verl_stable/sft/insight-qwen3-1.7b-sft-0510/global_step_370
-    /home/anikait.singh/rl_behaviors_verl_stable/sft/insight-qwen2.5-3b-sft-0510/global_step_370
+#     /home/anikait.singh/rl_behaviors_verl_stable/sft/insight-qwen3-1.7b-sft-0510/global_step_370
+    /home/ubuntu/insight-qwen3-32b-sft
 )
 num_models=${#models[@]}
 names=(
-    insight-qwen3-1.7b-noextrap-grpo-v3
-    insight-qwen2.5-3b-noextrap-grpo-v3
+#     insight-qwen3-1.7b-noextrap-grpo-v3
+    insight-qwen2.5-3b-grpo-maxtoken
 )
 num_names=${#names[@]}
 
 train_data_dirs=(
-    "/home/anikait.singh/rl_behaviors_verl_stable/data_insights_rl_v3"
-    "/home/anikait.singh/rl_behaviors_verl_stable/data_insights_rl_v3"
+    "/home/ubuntu/rl"
+#     "/home/anikait.singh/rl_behaviors_verl_stable/data_insights_rl_v3"
 )
 num_train_data_dirs=${#train_data_dirs[@]}
 
 eval_data_dirs=(
-    "/home/anikait.singh/rl_behaviors_verl_stable/data_insights_rl_v3"
-    "/home/anikait.singh/rl_behaviors_verl_stable/data_insights_rl_v3"
+    "/home/ubuntu/rl"
+#     "/home/anikait.singh/rl_behaviors_verl_stable/data_insights_rl_v3"
 )
 num_eval_data_dirs=${#eval_data_dirs[@]}
 
@@ -40,7 +40,7 @@ gpus=(
 )
 num_gpus=${#gpus[@]}
 
-PROJECT_NAME='verl_stable_insight_v3_clip_grpo_0511'
+PROJECT_NAME='verl_stable_insight_v3_clip_grpo_0516'
 
 
 if [ $num_models -ne $num_names ]; then
@@ -100,7 +100,7 @@ for i in $(seq 0 $((num_models-1))); do
     export MAX_PROMPT_LENGTH=1280
     export EPOCHS=2
 
-    command="bash /home/anikait.singh/verl-stable/scripts/grpo/grpo_run_insight.sh"
+    command="bash /home/ubuntu/verl-stable/scripts/grpo/grpo_run_insight.sh"
     echo "Using GPU: $CUDA_VISIBLE_DEVICES"
     echo $command
     if [ $dry_run = true ]; then
