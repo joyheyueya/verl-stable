@@ -17,7 +17,7 @@ python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.actor.ppo_mini_batch_size=28 \
     actor_rollout_ref.actor.ppo_micro_batch_size=28 \
     actor_rollout_ref.actor.use_dynamic_bsz=True \
-    actor_rollout_ref.actor.only_train_on_positive=False \
+#     actor_rollout_ref.actor.only_train_on_positive=False \
     actor_rollout_ref.actor.remove_truncated=False \
     actor_rollout_ref.actor.ppo_max_token_len_per_gpu=32768 \
     actor_rollout_ref.rollout.max_num_batched_tokens=32768 \
