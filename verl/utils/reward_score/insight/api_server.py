@@ -30,6 +30,8 @@ class ContrastiveResponse(BaseModel):
     no_context_scores_avg: List[float]
     contrastive_loss: List[float]
     contrastive_loss_avg: List[float]
+    max_scores_avg: List[float]
+    length_reward_tensor: List[float]
 
 # Global variables to store model and tokenizer
 model = None
@@ -57,7 +59,7 @@ async def compute_contrastive_loss_endpoint(request: ContrastiveRequest):
             request.insight_used = [request.insight_used]
             
         # Compute contrastive loss
-        paper1_scores, paper1_scores_avg, paper2_scores, paper2_scores_avg, joint_scores, joint_scores_avg, no_context_scores, no_context_scores_avg, contrastive_loss, contrastive_loss_avg = compute_contrastive_loss(
+        paper1_scores, paper1_scores_avg, paper2_scores, paper2_scores_avg, joint_scores, joint_scores_avg, no_context_scores, no_context_scores_avg, contrastive_loss, contrastive_loss_avg, max_scores_avg, length_reward_tensor = compute_contrastive_loss(
             request.paper1_examples,
             request.paper2_examples,
             request.joint_examples,
@@ -81,7 +83,9 @@ async def compute_contrastive_loss_endpoint(request: ContrastiveRequest):
             no_context_scores=no_context_scores.cpu().numpy().tolist(),
             no_context_scores_avg=no_context_scores_avg.cpu().numpy().tolist(),
             contrastive_loss=contrastive_loss.cpu().numpy().tolist(),
-            contrastive_loss_avg=contrastive_loss_avg.cpu().numpy().tolist()
+            contrastive_loss_avg=contrastive_loss_avg.cpu().numpy().tolist(),
+            max_scores_avg=max_scores_avg.cpu().numpy().tolist(),
+            length_reward_tensor=length_reward_tensor.cpu().numpy().tolist()
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -90,7 +94,7 @@ if __name__ == "__main__":
     import uvicorn
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", type=str, default="0.0.0.0")
-    parser.add_argument("--port", type=int, default=8000)
+    parser.add_argument("--port", type=int, default=8001)
     parser.add_argument("--model_name_or_path", type=str, default="Qwen/Qwen3-14B-Base")
 #     parser.add_argument("--lam_1", type=float, default=1.0)
 #     parser.add_argument("--lam_2", type=float, default=0.05)

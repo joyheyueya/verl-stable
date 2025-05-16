@@ -52,7 +52,7 @@ def compute_score(data_source, solution_str, ground_truth, extra_info):
         
         response = requests.post('http://localhost:8000/compute_contrastive_loss', json=request)
         curr_reward_list = response.json()
-
+        print('curr_reward_list', curr_reward_list)
         if 'contrastive_loss_avg' in curr_reward_list:
             return curr_reward_list['contrastive_loss_avg'][0]
         else:
@@ -76,3 +76,4 @@ if __name__ == '__main__':
         extra_info=extra_info
     )
     print(score)
+    print('score', score)

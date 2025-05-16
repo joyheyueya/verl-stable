@@ -370,7 +370,9 @@ def compute_contrastive_loss(
         no_context_scores, 
         no_context_scores_avg, 
         contrastive_loss,
-        contrastive_loss_avg
+        contrastive_loss_avg,
+        max_scores_avg,
+        length_reward_tensor
     )
 
 
