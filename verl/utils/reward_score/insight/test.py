@@ -24,13 +24,13 @@ def extract_insight(generated_text):
         insight = insights_extracted[0]
     else:
         insight = ''
+    insight = insight.replace('[[', '').replace(']]', '').replace('<insight>', '').replace('</insight>', '').strip()
     return insight
 
 def compute_score(data_source, solution_str, ground_truth, extra_info):
     if THOUGHT_DELIMITER_END in solution_str:
         solution_str = solution_str.split(THOUGHT_DELIMITER_END)[1]
     solution_str = extract_insight(solution_str)
-    
     try:
         num_responses = 1
         insight_used = [str(solution_str)]
