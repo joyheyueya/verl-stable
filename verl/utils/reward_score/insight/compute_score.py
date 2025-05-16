@@ -23,6 +23,7 @@ def extract_insight(generated_text):
         insight = insights_extracted[0]
     else:
         insight = ''
+    insight = insight.replace('[[', '').replace(']]', '').replace('<insight>', '').replace('</insight>', '').strip()
     return insight
 
 def compute_score(data_source, solution_str, ground_truth, extra_info):
@@ -49,7 +50,7 @@ def compute_score(data_source, solution_str, ground_truth, extra_info):
             "max_length_reward": 100          
         }
         
-        response = requests.post('http://localhost:8000/compute_contrastive_loss', json=request)
+        response = requests.post('http://localhost:8001/compute_contrastive_loss', json=request)
         curr_reward_list = response.json()
 
         if 'contrastive_loss_avg' in curr_reward_list:
