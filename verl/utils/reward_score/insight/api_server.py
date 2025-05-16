@@ -15,6 +15,9 @@ class ContrastiveRequest(BaseModel):
     joint_examples: Union[List[str], str]
     no_context_examples: Union[List[str], str]
     insight_used: Union[List[str], str]
+    lam_1: float
+    lam_2: float
+    max_length_reward: int
 
 class ContrastiveResponse(BaseModel):
     paper1_scores: List[float]
@@ -61,7 +64,10 @@ async def compute_contrastive_loss_endpoint(request: ContrastiveRequest):
             request.no_context_examples,
             request.insight_used,
             model,
-            tokenizer
+            tokenizer,
+            lam_1=request.lam_1,
+            lam_2=request.lam_2,
+            max_length_reward=request.max_length_reward
         )
         
         # Convert tensors to lists
@@ -85,7 +91,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--host", type=str, default="0.0.0.0")
     parser.add_argument("--port", type=int, default=8000)
-    parser.add_argument("--model_name_or_path", type=str, default="Qwen/Qwen3-14B")
+    parser.add_argument("--model_name_or_path", type=str, default="Qwen/Qwen3-14B-Base")
+#     parser.add_argument("--lam_1", type=float, default=1.0)
+#     parser.add_argument("--lam_2", type=float, default=0.05)
+#     parser.add_argument("--max_length_reward", type=int, default=100)
     args = parser.parse_args()
     setup_model(args.model_name_or_path)
     uvicorn.run(app, host=args.host, port=args.port) 

@@ -43,7 +43,10 @@ def compute_score(data_source, solution_str, ground_truth, extra_info):
             "paper2_examples": paper2_prompt,
             "joint_examples": joint_prompt,
             "no_context_examples": no_context_prompt,
-            "insight_used": insight_used
+            "insight_used": insight_used,
+            "lam_1": 1.0,
+            "lam_2": 0.05,
+            "max_length_reward": 100          
         }
         
         response = requests.post('http://localhost:8000/compute_contrastive_loss', json=request)
